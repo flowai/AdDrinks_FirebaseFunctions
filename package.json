@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/flowai/AdDrinks_FirebaseFunctions/issues"
   },
-  "homepage": "https://github.com/flowai/AdDrinks_FirebaseFunctions#readme"
+  "homepage": "https://github.com/flowai/AdDrinks_FirebaseFunctions#readme",
+  "dependencies": {
+    "firebase-tools": "^3.9.1"
+  }
 }
