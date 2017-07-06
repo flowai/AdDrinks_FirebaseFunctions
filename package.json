@@ -1,0 +1,23 @@
+{
+  "name": "addrinksfirebasefunctions",
+  "version": "0.0.1",
+  "description": "all firebase functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowai/AdDrinks_FirebaseFunctions.git"
+  },
+  "keywords": [
+    "firebase",
+    "functions"
+  ],
+  "author": "Florian Waidner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flowai/AdDrinks_FirebaseFunctions/issues"
+  },
+  "homepage": "https://github.com/flowai/AdDrinks_FirebaseFunctions#readme"
+}
