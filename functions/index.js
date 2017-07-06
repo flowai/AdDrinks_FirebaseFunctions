@@ -1,7 +1,6 @@
 'use strict'
 
 const functions = require('firebase-functions');
-const gcs = require("@google-cloud/storage")();
 const admin = require('firebase-admin');
 
 // // Create and Deploy Your First Cloud Functions
@@ -40,6 +39,14 @@ exports.addCaps = functions.https.onRequest((request, response) => {
 
     let oCaps = request.body;
 
-    admin.database().ref('coffee/caps').child(oCaps.caps).set('true');
-
+    admin.database().ref('coffee/caps').child(oCaps.caps).set('true').then(snapshot => {
+        console.log("Status 201 - Entry created");
+        response.status(201).send("Entry created");
+        return;
+    })
+    .error(error => {
+        console.log("Status 400 - missing Entry creation");
+        response.status(400).send("Missing Entry creation");
+        return;
+    });
 });
