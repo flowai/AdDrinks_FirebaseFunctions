@@ -1,0 +1,2 @@
+# AdDrinks_FirebaseFunctions
+Store Firebasefunctions
