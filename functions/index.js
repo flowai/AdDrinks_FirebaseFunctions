@@ -45,10 +45,10 @@ exports.addCaps = functions.https.onRequest((request, response) => {
         console.log("Status 201 - Entry created");
         response.status(201).send("Entry created");
         return;
-    })
-    .error(error => {
-        console.log("Status 400 - missing Entry creation");
-        response.status(400).send("Missing Entry creation");
+    },
+    error => {
+        console.error("Status 400 - missing Entry creation" + error);
+        response.status(400).send("Missing Entry creation" + error);
         return;
     });
 });
