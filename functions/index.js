@@ -151,7 +151,7 @@ exports.addUser = functions.https.onRequest((request, response) => {
         !(typeof request.body.prename === 'string') ||
         !(typeof request.body.zipCode === 'number') ||
         !(typeof request.body.city === 'string') ||
-        !(typeof request.body.street === 'strint') ||
+        !(typeof request.body.street === 'string') ||
         !(typeof request.body.number === 'number')){
         console.log("Type missmatch - please provide a correct value");
         response.status(400).send("Type missmatch, please provide other type for USERS");
