@@ -160,12 +160,21 @@ exports.addUser = functions.https.onRequest((request, response) => {
 
     let oUser = request.body;
     let sId = makeid();
+    let ref = admin.database();
 
-    admin.database().ref('users').child(sId).set(oUser).then(snapshot => {
+    ref.ref('users').child(sId).set(oUser).then(snapshot => {
         console.log("Status 201 - Entry created - " + oUser.name);
         response.status(201).send("Entry created");
+        //return;
+    },
+    error => {
+        console.error("Status 400 - missing Entry creation" + error);
+        response.status(400).send("Missing Entry creation" + error);
+        return;
+    });
 
-        admin.database.ref('points').child(sId).set({
+    console.log('geht!!!');
+    ref.ref('points').child(sId).set({
             points : 0
         }).then(snapshot => {
             console.log("Status 201 - Entry created - Points initialized");
@@ -177,13 +186,6 @@ exports.addUser = functions.https.onRequest((request, response) => {
             response.status(400).send("Missing Entry creation " + error);
             return;
         });
-        return;
-    },
-    error => {
-        console.error("Status 400 - missing Entry creation" + error);
-        response.status(400).send("Missing Entry creation" + error);
-        return;
-    });
 
     // generate a new ID
     function makeid() {
