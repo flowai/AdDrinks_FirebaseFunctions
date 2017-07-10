@@ -51,4 +51,158 @@ exports.addCaps = functions.https.onRequest((request, response) => {
         response.status(400).send("Missing Entry creation" + error);
         return;
     });
+   
 });
+
+exports.addPads = functions.https.onRequest((request, response) => {
+    if(!(request.method === 'POST')){
+        console.log("Wrong request method: "+ request.method);
+        response.status(405).send(request.method);
+        return; 
+    }
+
+    if (!request.body.pads) {
+        console.log("Please provide more information.")
+		response.status(400).send("Please provide more information.");
+        return;
+	}
+
+    if (!(typeof request.body.pads === 'string')){
+        console.log("Type missmatch - please provide a string value" + typeof request.body.pads);
+        response.status(400).send("Type missmatch, please provide other type for PADS");
+        return;
+    }
+
+    let oPads = request.body;
+
+    admin.database().ref('coffee/pads').child(oPads.pads).set('true').then(snapshot => {
+        console.log("Status 201 - Entry created");
+        response.status(201).send("Entry created");
+        return;
+    },
+    error => {
+        console.error("Status 400 - missing Entry creation" + error);
+        response.status(400).send("Missing Entry creation" + error);
+        return;
+    });
+   
+});
+
+exports.addCoffee = functions.https.onRequest((request, response) => {
+    if(!(request.method === 'POST')){
+        console.log("Wrong request method: "+ request.method);
+        response.status(405).send(request.method);
+        return; 
+    }
+
+    if (!request.body.coffee) {
+        console.log("Please provide more information.")
+		response.status(400).send("Please provide more information.");
+        return;
+	}
+
+    if (!(typeof request.body.coffee === 'string')){
+        console.log("Type missmatch - please provide a string value" + typeof request.body.coffee);
+        response.status(400).send("Type missmatch, please provide other type for COFFEE");
+        return;
+    }
+
+    let oCoffee = request.body;
+
+    admin.database().ref('coffee/coffee').child(oCoffee.coffee).set('true').then(snapshot => {
+        console.log("Status 201 - Entry created");
+        response.status(201).send("Entry created");
+        return;
+    },
+    error => {
+        console.error("Status 400 - missing Entry creation" + error);
+        response.status(400).send("Missing Entry creation" + error);
+        return;
+    });
+   
+});
+
+
+/*
+    {
+        ID: "xYz125",
+        name: "Mustermann",
+        prename: "Max",
+        zipCode: "66459",
+        city: "Kirkel",
+        street: "Burgstr.",
+        number: "40",
+    }
+*/
+exports.addUser = functions.https.onRequest((request, response) => {
+    if(!(request.method === 'POST')){
+        console.log("Wrong request method: "+ request.method);
+        response.status(405).send(request.method);
+        return; 
+    }
+
+    if (!request.body.name) {
+        console.log("Please provide more information.")
+		response.status(400).send("Please provide more information.");
+        return;
+	}
+
+    if (!(typeof request.body.name === 'string') ||
+        !(typeof request.body.prename === 'string') ||
+        !(typeof request.body.zipCode === 'number') ||
+        !(typeof request.body.city === 'string') ||
+        !(typeof request.body.street === 'strint') ||
+        !(typeof request.body.number === 'number')){
+        console.log("Type missmatch - please provide a correct value");
+        response.status(400).send("Type missmatch, please provide other type for USERS");
+        return;
+    }
+
+    let oUser = request.body;
+    let sId = makeid();
+
+    admin.database().ref('users').child(sId).set(oUser).then(snapshot => {
+        console.log("Status 201 - Entry created - " + oUser.name);
+        response.status(201).send("Entry created");
+
+        admin.database.ref('points').child(sId).set({
+            points : 0
+        }).then(snapshot => {
+            console.log("Status 201 - Entry created - Points initialized");
+            response.status(201).send("Entry created - Points");
+            return;
+        },
+        error => {
+            console.log("Status 400 - missing Entry creation" + error);
+            response.status(400).send("Missing Entry creation " + error);
+            return;
+        });
+        return;
+    },
+    error => {
+        console.error("Status 400 - missing Entry creation" + error);
+        response.status(400).send("Missing Entry creation" + error);
+        return;
+    });
+
+    // generate a new ID
+    function makeid() {
+			var text = "";
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+			for( var i=0; i < 5; i++ ) {
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			}	
+			return text;
+		}
+   
+});
+
+
+/* 
+    {
+        ID: "xyfr4",
+        points: "12"
+    }
+*/
+//exports.addUserPoints
