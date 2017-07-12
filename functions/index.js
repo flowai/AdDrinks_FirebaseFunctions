@@ -216,3 +216,15 @@ exports.getCaps = functions.https.onRequest((request, response) => {
         response.status(200).send(snapshot.val());
     });
 });
+
+exports.getPads = functions.https.onRequest((request, response) => {
+    if(!(request.method === 'GET')){
+        console.log("Wrong request method: "+ request.method);
+        response.status(405).send(request.method);
+        return; 
+    }
+
+    admin.database().ref('/coffee/pads/').once('value').then(function(snapshot){
+        response.status(200).send(snapshot.val());
+    });
+});
