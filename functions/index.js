@@ -133,6 +133,11 @@ exports.addCoffee = functions.https.onRequest((request, response) => {
         street: "Burgstr.",
         number: "40",
     }
+
+    {
+        ID: "xyfr4",
+        points: "12"
+    }
 */
 exports.addUser = functions.https.onRequest((request, response) => {
     if(!(request.method === 'POST')){
@@ -164,7 +169,7 @@ exports.addUser = functions.https.onRequest((request, response) => {
 
     ref.ref('users').child(sId).set(oUser).then(snapshot => {
         console.log("Status 201 - Entry created - " + oUser.name);
-        response.status(201).send("Entry created");
+        //response.status(201).send("Entry created");
         //return;
     },
     error => {
@@ -200,11 +205,14 @@ exports.addUser = functions.https.onRequest((request, response) => {
    
 });
 
-
-/* 
-    {
-        ID: "xyfr4",
-        points: "12"
+exports.getCaps = functions.https.onRequest((request, response) => {
+    if(!(request.method === 'GET')){
+        console.log("Wrong request method: "+ request.method);
+        response.status(405).send(request.method);
+        return; 
     }
-*/
-//exports.addUserPoints
+
+    admin.database().ref('/coffee/caps/').once('value').then(function(snapshot){
+        response.status(200).send(snapshot.val());
+    });
+});
