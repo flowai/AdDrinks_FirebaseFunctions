@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/flowai/AdDrinks_FirebaseFunctions#readme",
   "dependencies": {
+    "cors": "^2.8.4",
     "firebase-tools": "^3.9.1"
   }
 }
