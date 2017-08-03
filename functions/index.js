@@ -215,7 +215,13 @@ exports.getCaps = functions.https.onRequest((request, response) => {
         }
 
         admin.database().ref('/coffee/caps/').once('value').then(function(snapshot){
-            response.status(200).send(snapshot.val());
+            let array = [];
+            let json_data = snapshot.val();
+            
+            for(var i in json_data)
+                array.push(json_data [i]);
+
+            response.status(200).send(array);
         });
      })
 });
