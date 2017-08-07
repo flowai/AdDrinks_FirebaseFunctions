@@ -28,21 +28,21 @@ exports.addCaps = functions.https.onRequest((request, response) => {
         return; 
     }
 
-    if (!request.body.caps) {
+    if (!request.body) {
         console.log("Please provide more information.")
 		response.status(400).send("Please provide more information.");
         return;
 	}
 
-    if (!(typeof request.body.caps === 'string')){
+    /*if (!(typeof request.body === 'string')){
         console.log("Type missmatch - please provide a string value" + typeof request.body.caps);
         response.status(400).send("Type missmatch, please provide other type for CAPS");
         return;
-    }
+    }*/
 
     let oCaps = request.body;
 
-    admin.database().ref('coffee/caps').child(oCaps.caps).set('true').then(snapshot => {
+    admin.database().ref('coffee').child('caps').push(oCaps).then(snapshot => {
         console.log("Status 201 - Entry created");
         response.status(201).send("Entry created");
         return;
