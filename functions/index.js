@@ -245,7 +245,7 @@ exports.getPads = functions.https.onRequest((request, response) => {
 });
 
 // ----- Delete Functions ----- 
-exports.deleteCaps = functions.https.onRequest((request, response) => {
+exports.deleteCaps = functions.database.ref('{id}').onWrite(event => {
     cors(request, response, () =>{
         if(!(request.method === 'DELETE')){
             console.log("Wrong request method: "+ request.method);
@@ -253,7 +253,7 @@ exports.deleteCaps = functions.https.onRequest((request, response) => {
             return;
         }
 
-        admin.database().ref('/coffee/caps/').child(request.body.id).remove()
+        admin.database().ref('/coffee/caps/').child(event.params.id).remove()
             .then(function() {
                 response.send({ status: 'ok' });
             })
