@@ -14,6 +14,8 @@ admin.initializeApp(functions.config().firebase);
 // });
 
 
+// ----- Add Functions ----- 
+
 /*
     add a new Cap provider to the section
     required post body:
@@ -208,6 +210,8 @@ exports.addUser = functions.https.onRequest((request, response) => {
    
 });
 
+// ----- Getter ----- 
+
 exports.getCaps = functions.https.onRequest((request, response) => {
      cors(request, response, () => {
         if(!(request.method === 'GET')){
@@ -238,4 +242,24 @@ exports.getPads = functions.https.onRequest((request, response) => {
     admin.database().ref('/coffee/pads/').once('value').then(function(snapshot){
         response.status(200).send(snapshot.val());
     });
+});
+
+// ----- Delete Functions ----- 
+exports.deleteCaps = functions.https.onRequest((request, response) => {
+    cors(request, response, () =>{
+        if(!(request.method === 'DELETE')){
+            console.log("Wrong request method: "+ request.method);
+            response.status(405).send(request.method);
+            return;
+        }
+
+        admin.database().ref('/coffee/caps/').child(request.body.id).remove()
+            .then(function() {
+                response.send({ status: 'ok' });
+            })
+            .catch(function(error) {
+                console.log('Error deleting data:', error);
+                response.send({ status: 'error', error: error });
+            });
+    })
 });
