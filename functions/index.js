@@ -252,14 +252,19 @@ exports.deleteCaps = functions.https.onRequest((request, response) => {
             response.status(405).send(request.method);
             return;
         }
+        let id = request.body.id;
 
-        admin.database().ref('/coffee/caps/').child(request.body.id).remove()
-            .then(function() {
+        admin.database().ref('/coffee/caps/{id}').onDelete(event => {
+            var file=event.data.previous.val();  // <= CHANGED
+            console.log("deleted file key"+event.params.fileKey);
+            console.log("deleted file "+file);
+        })
+        .then(function() {
                 response.send({ status: 'ok' });
             })
-            .catch(function(error) {
+        .catch(function(error) {
                 console.log('Error deleting data:', error);
                 response.send({ status: 'error', error: error });
-            });
+        });
     })
 });
