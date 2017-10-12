@@ -232,6 +232,20 @@ exports.getCaps = functions.https.onRequest((request, response) => {
      })
 });
 
+exports.getCapsFull = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        if(!(request.method === 'GET')){
+            console.log("Wrong request method: "+ request.method);
+            response.status(405).send(request.method);
+            return;
+        }
+
+        admin.database().ref('/coffee/caps/').once('value').then(function(snapshot){
+            response.status(200).send(snapshot.val());
+        });
+    })
+});
+
 exports.getPads = functions.https.onRequest((request, response) => {
     if(!(request.method === 'GET')){
         console.log("Wrong request method: "+ request.method);
