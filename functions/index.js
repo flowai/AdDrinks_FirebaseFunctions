@@ -268,12 +268,8 @@ exports.deleteCaps = functions.https.onRequest((request, response) => {
         }
         let id = request.body.id;
 
-        admin.database().ref('/coffee/caps/{id}').onDelete(event => {
-            var file=event.data.previous.val();  // <= CHANGED
-            console.log("deleted file key"+event.params.fileKey);
-            console.log("deleted file "+file);
-        })
-        .then(function() {
+        admin.database().ref('/coffee/caps/' + id).remove()
+        .then(function(success) {
                 response.send({ status: 'ok' });
             })
         .catch(function(error) {
