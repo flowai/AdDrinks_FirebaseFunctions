@@ -261,7 +261,7 @@ exports.getPads = functions.https.onRequest((request, response) => {
 // ----- Delete Functions ----- 
 exports.deleteCaps = functions.https.onRequest((request, response) => {
     cors(request, response, () =>{
-        if(!(request.method === 'DELETE')){
+        if(!(request.method === 'POST')){
             console.log("Wrong request method: "+ request.method);
             response.status(405).send(request.method);
             return;
